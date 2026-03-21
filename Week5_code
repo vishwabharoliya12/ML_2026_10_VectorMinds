@@ -1,0 +1,174 @@
+import numpy as np
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+import warnings
+warnings.filterwarnings('ignore')
+
+os.makedirs("graphs_week5",exist_ok=True)
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+sns.set_style("whitegrid")
+
+df=pd.read_csv("/workspaces/ML_2026_10_VectorMinds/crop_yield.csv")
+df.drop_duplicates(inplace=True)
+df.dropna(inplace=True)
+
+print("Dataset shape after basic cleaning:",df.shape)
+
+num_cols=['Area','Annual_Rainfall','Fertilizer','Pesticide','Yield']
+
+print("\n--- Skewness BEFORE transformations ---")
+for col in num_cols:
+    print(f"{col}: {df[col].skew():.4f}")
+
+fig,axes=plt.subplots(2,3,figsize=(15, 8))
+axes=axes.flatten()
+for i,col in enumerate(num_cols):
+    axes[i].hist(df[col],bins=50,color='steelblue',edgecolor='white')
+    axes[i].set_title(f"{col} — before")
+axes[-1].set_visible(False)
+plt.suptitle("Distributions before Transformation",fontsize=14)
+plt.tight_layout()
+plt.savefig("graphs_week5/distributions_before.png",dpi=150)
+plt.close()
+print("\nSaved: distributions_before.png")
+
+
+skew_cols=['Fertilizer','Pesticide','Area']
+
+for col in skew_cols:
+    df[col] = np.log1p(df[col])
+
+print("\n--- Skewness AFTER log1p transformation ---")
+for col in num_cols:
+    print(f"  {col}:{df[col].skew():.4f}")
+
+
+
+print("\n--- Removing Outliers using IQR ---")
+df_before=df.shape[0]
+
+cols_to_cap=['Fertilizer','Pesticide','Area','Annual_Rainfall','Yield']
+
+for col in cols_to_cap:
+    Q1=df[col].quantile(0.25)
+    Q3=df[col].quantile(0.75)
+    IQR=Q3-Q1
+    lower=Q1-1.5*IQR
+    upper=Q3+1.5*IQR
+    df[col]=df[col].clip(lower,upper)
+
+print(f" Rows before: {df_before}")
+print(f" Rows after capping: {df.shape[0]}")
+print("(Capping used — extreme values clipped to IQR boundaries)")
+
+
+print("\n--- Creating New Features ---")
+
+df['Fertilizer_per_Area']=df['Fertilizer']/(df['Area']+ 1e-5)
+df['Pesticide_per_Area']=df['Pesticide']/(df['Area']+ 1e-5)
+df['Rainfall_per_Area']=df['Annual_Rainfall']/(df['Area']+ 1e-5)
+df['Input_Intensity']=df['Fertilizer']+df['Pesticide']
+
+print("  New features added:")
+print("  - Fertilizer_per_Area")
+print("  - Pesticide_per_Area")
+print("  - Rainfall_per_Area")
+print("  - Input_Intensity")
+
+
+transformed_cols = ['Area','Fertilizer','Pesticide',
+                    'Fertilizer_per_Area','Pesticide_per_Area',
+                    'Rainfall_per_Area','Input_Intensity','Yield']
+
+fig,axes=plt.subplots(2,4,figsize=(18, 8))
+axes=axes.flatten()
+for i,col in enumerate(transformed_cols):
+    axes[i].hist(df[col],bins=50,color='seagreen',edgecolor='white')
+    axes[i].set_title(f"{col}—after")
+plt.suptitle("Distributions after Transformation & Feature Engineering",fontsize=14)
+plt.tight_layout()
+plt.savefig("graphs_week5/distributions_after.png",dpi=150)
+plt.close()
+print("\nSaved: distributions_after.png")
+
+plt.figure(figsize=(12,8))
+numeric_df=df.select_dtypes(include=[np.number])
+sns.heatmap(
+    numeric_df.corr(),
+    annot=True,
+    fmt=".2f",
+    cmap="coolwarm",
+    linewidths=0.5
+)
+plt.title("Correlation Heatmap — After Feature Engineering")
+plt.tight_layout()
+plt.savefig("graphs_week5/correlation_heatmap.png",dpi=150)
+plt.close()
+print("Saved: correlation_heatmap.png")
+
+
+fig,axes = plt.subplots(1,3,figsize=(15,5))
+for i,col in enumerate(['Fertilizer','Pesticide','Yield']):
+    axes[i].boxplot(df[col])
+    axes[i].set_title(f"{col} — After Capping")
+plt.suptitle("Boxplots After Outlier Capping")
+plt.tight_layout()
+plt.savefig("graphs_week5/boxplots_after_capping.png",dpi=150)
+plt.close()
+print("Saved: boxplots_after_capping.png")
+
+
+x = df[['State','Crop','Season',
+    'Crop_Year','Area',
+    'Annual_Rainfall','Fertilizer','Pesticide',
+    'Fertilizer_per_Area','Pesticide_per_Area',
+    'Rainfall_per_Area','Input_Intensity'
+]]
+
+y = df['Yield']
+
+numerical_features = [
+    'Crop_Year','Area','Annual_Rainfall',
+    'Fertilizer','Pesticide',
+    'Fertilizer_per_Area','Pesticide_per_Area',
+    'Rainfall_per_Area','Input_Intensity'
+]
+
+categorical_features = ['State','Crop','Season']
+
+preprocessor = ColumnTransformer(transformers=[
+    ('num',StandardScaler(),numerical_features),
+    ('cat',OneHotEncoder(drop='first', handle_unknown='ignore'),categorical_features)
+])
+
+x_train,x_test,y_train,y_test=train_test_split(
+    x,y,test_size=0.2,random_state=42
+)
+
+
+print("\n========== WEEK 5 SUMMARY ==========")
+print(f"Final dataset shape     : {df.shape}")
+print(f"Total features (input)  : {len(numerical_features) + len(categorical_features)}")
+print(f"Numerical features      : {numerical_features}")
+print(f"Categorical features    : {categorical_features}")
+print(f"Target variable         : Yield")
+print(f"Training samples        : {x_train.shape[0]}")
+print(f"Testing samples         : {x_test.shape[0]}")
+print("\nTransformations Applied :")
+print("  - log1p on Fertilizer, Pesticide, Area")
+print("  - IQR capping on outliers")
+print("  - 4 new features engineered")
+print("\nGraphs saved in: graphs_week5/")
+print("  - distributions_before.png")
+print("  - distributions_after.png")
+print("  - correlation_heatmap.png")
+print("  - boxplots_after_capping.png")
