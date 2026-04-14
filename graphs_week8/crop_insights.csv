@@ -1,0 +1,54 @@
+Crop,Top Feature,Correlation,2nd Feature,2nd Corr,Sample Size
+Arecanut,Annual_Rainfall,-0.276,Fertilizer,0.19,162
+Arhar/Tur,Area,-0.109,Pesticide,-0.105,508
+Bajra,Area,-0.078,Pesticide,-0.077,524
+Banana,Annual_Rainfall,-0.587,Fertilizer,0.246,245
+Barley,Annual_Rainfall,-0.448,Fertilizer,0.361,297
+Black pepper,Annual_Rainfall,-0.259,Pesticide,-0.079,126
+Cardamom,Pesticide,-0.531,Input_Intensity,-0.504,74
+Cashewnut,Annual_Rainfall,0.077,Pesticide_per_Area,-0.068,134
+Castor seed,Pesticide,0.265,Input_Intensity,0.264,300
+Coconut ,Fertilizer_per_Area,-0.801,Pesticide_per_Area,0.636,172
+Coriander,Annual_Rainfall,0.386,Fertilizer_per_Area,0.093,199
+Cotton(lint),Pesticide,0.397,Input_Intensity,0.395,476
+Cowpea(Lobia),Area,-0.412,Fertilizer,-0.408,134
+Dry chillies,Fertilizer_per_Area,0.271,Area,-0.203,419
+Garlic,Annual_Rainfall,0.234,Pesticide,0.119,250
+Ginger,Fertilizer,0.337,Input_Intensity,0.336,323
+Gram,Annual_Rainfall,-0.146,Fertilizer_per_Area,0.07,490
+Groundnut,Annual_Rainfall,0.161,Fertilizer_per_Area,0.105,725
+Guar seed,Fertilizer_per_Area,-0.298,Pesticide_per_Area,0.258,63
+Horse-gram,Pesticide_per_Area,0.233,Pesticide,0.124,371
+Jowar,Fertilizer_per_Area,0.194,Annual_Rainfall,-0.087,513
+Jute,Area,0.718,Fertilizer,0.715,181
+Khesari,Area,-0.263,Fertilizer,-0.254,75
+Linseed,Annual_Rainfall,0.083,Fertilizer_per_Area,0.049,308
+Maize,Annual_Rainfall,-0.222,Fertilizer_per_Area,0.125,975
+Masoor,Annual_Rainfall,0.177,Pesticide_per_Area,0.118,324
+Mesta,Fertilizer,0.462,Input_Intensity,0.46,210
+Moong(Green Gram),Area,-0.245,Fertilizer,-0.23,740
+Moth,Annual_Rainfall,0.251,Pesticide_per_Area,0.097,110
+Niger seed,Annual_Rainfall,0.371,Area,-0.169,192
+Onion,Annual_Rainfall,-0.472,Pesticide,0.47,454
+Other  Rabi pulses,Annual_Rainfall,0.245,Area,-0.149,355
+Other Cereals,Fertilizer_per_Area,0.202,Pesticide_per_Area,-0.167,146
+Other Kharif pulses,Area,-0.403,Pesticide,-0.388,382
+Peas & beans (Pulses),Pesticide_per_Area,0.107,Annual_Rainfall,-0.097,369
+Potato,Annual_Rainfall,-0.36,Pesticide,0.294,628
+Ragi,Fertilizer_per_Area,0.247,Pesticide_per_Area,-0.173,498
+Rapeseed &Mustard,Pesticide,0.279,Input_Intensity,0.279,528
+Rice,Area,-0.127,Fertilizer_per_Area,0.112,1197
+Safflower,Annual_Rainfall,0.169,Fertilizer_per_Area,-0.093,169
+Sannhamp,Annual_Rainfall,0.635,Input_Intensity,0.249,160
+Sesamum,Fertilizer_per_Area,0.21,Area,-0.21,685
+Small millets,Area,-0.318,Pesticide,-0.304,485
+Soyabean,Annual_Rainfall,0.168,Area,-0.048,349
+Sugarcane,Pesticide,0.479,Input_Intensity,0.476,605
+Sunflower,Annual_Rainfall,-0.23,Pesticide,-0.126,441
+Sweet potato,Annual_Rainfall,-0.378,Pesticide_per_Area,0.132,273
+Tapioca,Pesticide,0.325,Input_Intensity,0.318,201
+Tobacco,Pesticide,0.289,Input_Intensity,0.287,364
+Turmeric,Input_Intensity,0.336,Fertilizer,0.335,337
+Urad,Area,-0.243,Fertilizer_per_Area,0.238,733
+Wheat,Input_Intensity,0.449,Pesticide,0.449,545
+other oilseeds,Pesticide,0.501,Input_Intensity,0.492,126
